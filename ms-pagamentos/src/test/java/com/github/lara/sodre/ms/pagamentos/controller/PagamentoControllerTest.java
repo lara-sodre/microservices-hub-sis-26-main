@@ -246,4 +246,19 @@ public class PagamentoControllerTest {
         Mockito.verify(pagamentoService).deletePagamento(existingId);
         Mockito.verifyNoMoreInteractions(pagamentoService);
     }
+
+
+    @Test
+    void deletePagamentoShouldReturn404WhenIdDoesNotExist() throws Exception {
+
+        Mockito.doThrow(new ResourceNotFoundException("Recurso não encontrado. ID: " + nonExistingId))
+                .when(pagamentoService).deletePagamento(nonExistingId);
+
+        mockMvc.perform(delete("/pagamento/{id}", nonExistingId))
+                .andExpect(status().isNotFound());
+
+        Mockito.verify(pagamentoService).deletePagamento(nonExistingId);
+        Mockito.verifyNoMoreInteractions(pagamentoService);
+    }
+
 }
