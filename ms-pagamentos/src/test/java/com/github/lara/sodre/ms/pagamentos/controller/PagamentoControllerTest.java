@@ -234,4 +234,16 @@ public class PagamentoControllerTest {
 
     }
 
+
+    @Test
+    void deletePagamentoShouldReturn204WhenIdExists() throws Exception {
+
+        Mockito.doNothing().when(pagamentoService).deletePagamento(existingId);
+
+        mockMvc.perform(delete("/pagamentos/{id}", existingId))
+                .andExpect(status().isNoContent());
+
+        Mockito.verify(pagamentoService).deletePagamento(existingId);
+        Mockito.verifyNoMoreInteractions(pagamentoService);
+    }
 }
